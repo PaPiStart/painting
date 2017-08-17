@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>你画我猜</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<style>
+    body {
+        display: flex;
+    }
+    
+    .footer {
+        display: flex;
+        margin-top: 30px;
+    }
+    
+    #colorsDiv .colorbox {
+        width: 13px;
+        height: 20px;
+    }
+    
+    #colorsDiv {
+        display: flex;
+        align-items: center;
+    }
+    
+    .selectedColor,
+    .stroke_selected {
+        position: relative;
+    }
+    
+    .selectedColor:before,
+    .stroke_selected:before {
+        content: "";
+        background: url(./jiantou.png) no-repeat;
+        width: 16px;
+        height: 16px;
+        background-size: 100%;
+        position: absolute;
+        top: -15px;
+    }
+    
+    .stroke_selected:before {
+        position: absolute;
+        top: -25px;
+        left: -8px;
+    }
+    
+    .strokes {
+        display: flex;
+        align-items: center;
+        margin: 0 20px 0 40px;
+    }
+    
+    .stroke {
+        width: 0px;
+        height: 0px;
+        border-style: solid;
+        margin: 0 2px;
+        border-color: #cccccc;
+    }
+    
+    .del,
+    .clear,
+    .pen {
+        display: inherit;
+        cursor: pointer;
+        margin: 0 10px;
+    }
+</style>
+
+<body>
+    <div id="drawingDiv">
+        <canvas id="canvas1" width="400px" height="400px;" style="border:2px solid pink"></canvas>
+        <div class="footer">
+            <div class="colors" id="colorsDiv">
+                <div class="colorbox selectedColor" style="background-color:#000"></div>
+                <div class="colorbox" style="background-color:#bfbfbf;"></div>
+                <div class="colorbox clearWhite" style="background-color:#fff;"></div>
+                <div class="colorbox" style="background-color:#f10300"></div>
+                <div class="colorbox" style="background-color:#ff6d0c;"></div>
+                <div class="colorbox" style="background-color:#fffd00;"></div>
+                <div class="colorbox" style="background-color:#45ff00"></div>
+                <div class="colorbox" style="background-color:#19b3fb;"></div>
+                <div class="colorbox" style="background-color:#0004f4;"></div>
+                <div class="colorbox" style="background-color:#ff47a8"></div>
+                <div class="colorbox" style="background-color:#51025e;"></div>
+                <div class="colorbox" style="background-color:#fecc97;"></div>
+                <div class="colorbox" style="background-color:#894900"></div>
+            </div>
+            <div class="strokes">
+                <div class="stroke stroke_selected" style="border-radius:6px;border-width:4px;"></div>
+                <div class="stroke" style="border-radius:8px;border-width:6px;"></div>
+                <div class="stroke" style="border-radius:12px;border-width:8px;"></div>
+                <div class="stroke" style="border-radius:16px;border-width:10px;"></div>
+            </div>
+            <div class="pen">
+                <?xml version="1.0" standalone="no"?>
+                <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1502868273095" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4525" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16"><defs><style type="text/css"></style></defs><path d="M648.260267 129.774933l241.390933 241.390933-462.711467 462.711467L185.5488 592.4864 648.260267 129.774933z" p-id="4526"></path><path d="M744.789333 33.245867l241.322667 241.322667-72.430933 72.430933L672.426667 105.6768 744.789333 33.245867z" p-id="4527"></path><path d="M161.3824 616.6528 402.773333 858.043733l-337.92 96.529067L161.3824 616.6528z" p-id="4528"></path><path d="M838.314667 30.242133l150.869333 150.869333c24.9856 24.9856 23.620267 66.901333-3.003733 93.525333-26.692267 26.692267-68.539733 27.989333-93.525333 3.003733l-150.869333-150.869333c-24.9856-24.9856-23.620267-66.901333 3.003733-93.525333C771.4816 6.621867 813.329067 5.256533 838.314667 30.242133z" p-id="4529"></path></svg>
+            </div>
+            <div class="clear">
+                <?xml version="1.0" standalone="no"?>
+                <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1502855817745" class="icon" style="" viewBox="0 0 1043 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12905" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20"><defs><style type="text/css"></style></defs><path d="M686.28732 99.478421c-7.982649-7.982649-21.057991-7.982649-29.049154 0l-651.248139 651.272466c-7.986297 7.982649-7.986297 21.047044 0 29.038207L132.648132 906.455713c7.996028 7.982649 23.765499 14.510589 35.063811 14.510589l405.777135 0c11.301961 0 27.066567-6.527941 35.058946-14.510589l427.83615-427.841015c7.999677-7.986297 7.999677-21.053126 0-29.039423L686.28732 99.478421 686.28732 99.478421zM568.257725 829.182264c-7.982649 7.982649-23.759418 14.53005-35.045567 14.53005L219.043913 843.712314c-11.303177 0-27.072648-6.548618-35.063811-14.53005l-59.708703-59.702621c-7.982649-7.982649-7.982649-21.057991 0-29.0601l238.748454-238.738724c7.991163-7.976567 21.066505-7.976567 29.049154 0l237.318072 237.332668c7.982649 7.991163 7.982649 21.057991 0 29.04064L568.257725 829.182264 568.257725 829.182264z" p-id="12906"></path></svg>
+            </div>
+            <div class="del" id="clearBtn">
+                <?xml version="1.0" standalone="no"?>
+                <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1502855251546" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2368" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20"><defs><style type="text/css"></style></defs><path d="M641.536 189.781333V64c0-35.157333-23.893333-64-56.490667-64H448.597333c-32.426667 0-66.048 28.842667-66.048 64v125.781333H179.2c7.850667 0-51.2 12.885333-51.2 66.218667 0 35.157333 26.624 64 59.050667 64h649.898666C869.376 320 896 291.157333 896 256c0-53.333333-59.050667-66.218667-59.050667-66.218667h-195.413333zM448 192V128c0-44.544 28.416-64 64-64 36.437333 0 64 19.626667 64 64v64h-128zM320 1024h384c70.4 0 128-57.6 128-128v-512H192v512c0 70.4 57.6 128 128 128z m323.754667-483.584c0-15.616 11.946667-28.416 26.368-28.416 14.506667 0 26.368 12.8 26.368 28.416v341.333333c0 15.701333-11.946667 28.501333-26.453334 28.501334-14.421333 0-26.282667-12.8-26.282666-28.501334v-341.333333z m-158.122667 0c0-15.616 11.946667-28.416 26.368-28.416 14.506667 0 26.368 12.8 26.368 28.416v341.333333c0 15.701333-11.946667 28.501333-26.368 28.501334-14.506667 0-26.368-12.8-26.368-28.501334v-341.333333z m-158.122667 0c0-15.616 11.946667-28.416 26.453334-28.416 14.421333 0 26.282667 12.8 26.282666 28.416v341.333333c0 15.701333-11.946667 28.501333-26.368 28.501334-14.506667 0-26.368-12.8-26.368-28.501334v-341.333333z" p-id="2369"></path></svg>
+            </div>
+        </div>
+    </div>
+    <div>
+        <canvas id="preview" width="400px" height="400px" style="border:2px solid pink">
+        </canvas>
+    </div>
+    <script type="text/javascript" src="./jquery-1.10.1.js"></script>
+    <script src="./main.js"></script>
+    <script type="text/javascript" src="./RecordableDrawing.js"></script>
+    <script>
+        let tempDataURL = undefined;
+        let getDataUrl = () => {
+            try {
+                let canvas = document.getElementById("canvas1"),
+                    dataURL = canvas.toDataURL(),
+                    fullQuality = canvas.toDataURL("image/jpeg", 1.0),
+                    mediumQuality = canvas.toDataURL("image/jpeg", 0.5),
+                    lowQuality = canvas.toDataURL("image/jpeg", 0.1);
+                if (tempDataURL === dataURL) {
+                    return "";
+                }
+                tempDataURL = dataURL;
+                return dataURL;
+
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        function getBase64(url) {
+            if (!url) {
+                return;
+            }
+            let Img = new Image(),
+                dataURL = '';
+            Img.src = url;
+            Img.onload = function() {
+                let canvas = document.getElementById("preview"),
+                    width = canvas.width,
+                    height = canvas.height;
+                canvas.getContext("2d").drawImage(Img, 0, 0, width, height);
+                dataURL = canvas.toDataURL('image/jpeg');
+            };
+        }
+        setInterval(() => {
+            getBase64(getDataUrl());
+        }, 100)
+    </script>
+</body>
+
+</html>
